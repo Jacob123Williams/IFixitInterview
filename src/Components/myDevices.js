@@ -4,30 +4,31 @@ import { ListGroupItem, Button } from 'react-bootstrap';
 class myDevices extends Component {
    constructor(props) {
       super(props);
-
-      this.state = {
-            devices: [
-               "Macintosh Powerbook 5300cs",
-               "Macintosh Quadra 610",
-               "Mad Catz Street Fighter IV FightPad",
-               "Magellan GPS",
-               "Magic Mouse"
-            ]
-
-      }
    }
 
    render() {
       var state = this.state;
+      var props = this.props;
 
       return (
       <section className="container">
-         {state.devices.map((deviceName, i) => (
+
+      <h3>
+         {'My Devices'}
+      </h3>
+
+      {props.devices.length !== 0 ?
+         props.devices.map((deviceName, i) => (
             <DeviceLine
                key = {'device' + i}
                title = {deviceName}
+               removeDevice = {() => {props.removeDevice(deviceName)}}
             />
-         ))}
+         ))
+      :
+         'You do not have any saved devices'
+      }
+
       </section>
       )
    }
@@ -39,10 +40,10 @@ const DeviceLine = function(props) {
      {props.title}
 
       <div className="pull-right">
-            <Button >
+            <Button href = {"https://www.ifixit.com/Device/" + props.title}>
               {'Visit Wiki'}
             </Button>
-            <Button>
+            <Button onClick = {props.removeDevice}>
               {'Remove Device'}
             </Button>
         </div>
